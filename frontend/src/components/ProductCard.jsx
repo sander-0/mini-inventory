@@ -101,7 +101,7 @@ const ProductCard = ({ product }) => {
 					<IconButton icon={<EditIcon />} onClick={onOpen} colorScheme='blue' />
 					<IconButton
 						icon={<DeleteIcon />}
-						onClick={() => handleDeleteProduct(product._id)}
+						onClick={() => handleDeleteProduct(product.id)}
 						colorScheme='red'
 					/>
 				</HStack>
@@ -141,7 +141,7 @@ const ProductCard = ({ product }) => {
 						<Button
 							colorScheme='blue'
 							mr={3}
-							onClick={() => handleUpdateProduct(product._id, updatedProduct)}
+							onClick={() => handleUpdateProduct(product.id, updatedProduct)}
 						>
 							Update
 						</Button>

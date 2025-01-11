@@ -79,7 +79,6 @@ export const useProductStore = create((set) => ({
   
   
 
-  // Update an existing product in the MySQL database
   updateProduct: async (pid, updatedProduct) => {
     try {
       const res = await fetch(`${API_URL}`, {
@@ -93,10 +92,10 @@ export const useProductStore = create((set) => ({
   
       if (data.success) {
         set((state) => ({
-          products: state.products.map((product) =>
-            product.id === pid ? { ...product, ...updatedProduct } : product
-          ),
-        }));
+            products: state.products.map((product) =>
+              product.id === pid ? { ...product, ...updatedProduct } : product
+            ),
+        }));          
         return { success: true, message: "Product updated successfully" };
       } else {
         return { success: false, message: data.message };

@@ -1,17 +1,49 @@
 <?php
+
+// Function to load .env variables
+function loadEnv($filePath)
+{
+    if (!file_exists($filePath)) {
+        return; // Exit if .env file doesn't exist
+    }
+
+    // Read .env file line by line
+    $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        // Skip comments
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+        // Split key and value
+        [$key, $value] = explode('=', $line, 2);
+        $key = trim($key);
+        $value = trim($value);
+
+        // Set the environment variable if not already set
+        if (!array_key_exists($key, $_ENV)) {
+            $_ENV[$key] = $value;
+            putenv("$key=$value");
+        }
+    }
+}
+
+// Load .env file (Make sure it's in the same directory as this script)
+loadEnv(__DIR__ . '/.env');
+
 // Set headers to allow CORS and specify JSON response
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pweb_ujian";
+// Use environment variables
+$host = $_ENV['DB_HOST'];
+$user = $_ENV['DB_USER'];
+$password = $_ENV['DB_PASS'];
+$dbname = $_ENV['DB_NAME'];
 
-// Create a connection to MySQL
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Create connection
+$conn = new mysqli($host, $user, $password, $dbname);
 
 // Check for connection errors
 if ($conn->connect_error) {
