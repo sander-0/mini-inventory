@@ -77,7 +77,6 @@ export const useProductStore = create((set) => ({
     }
   },
   
-  
 
   updateProduct: async (pid, updatedProduct) => {
     try {
